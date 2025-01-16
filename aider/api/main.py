@@ -2,6 +2,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import logging
+import time
+import psutil
 
 from .routes import repomap
 from .models import ErrorResponse
@@ -9,6 +11,9 @@ from .models import ErrorResponse
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Track start time for uptime calculation
+START_TIME = time.time()
 
 app = FastAPI(
     title="Aider Repository Map Service",
@@ -42,4 +47,31 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    """Health check endpoint that returns service status and basic metrics."""
+    try:
+        # Calculate uptime
+        uptime = int(time.time() - START_TIME)
+        
+        # Get basic system metrics
+        memory = psutil.virtual_memory()
+        disk = psutil.disk_usage('/')
+        
+        return {
+            "status": "healthy",
+            "timestamp": int(time.time()),
+            "uptime_seconds": uptime,
+            "system": {
+                "memory_used_percent": memory.percent,
+                "disk_used_percent": disk.percent
+            },
+            "version": app.version
+        }
+    except Exception as e:
+        logger.error(f"Health check failed: {str(e)}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "unhealthy",
+                "error": str(e)
+            }
+        )
