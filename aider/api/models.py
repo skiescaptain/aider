@@ -4,7 +4,6 @@ from typing import Optional, Dict, Any
 
 class RepoMapRequest(BaseModel):
     repo_url: str = Field(..., description="URL of the repository to analyze")
-    api_key: str = Field(..., description="API key for authentication")
     config: Optional[Dict[str, Any]] = Field(
         default=None,
         description="Optional configuration parameters for repository mapping"
