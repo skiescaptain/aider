@@ -52,8 +52,11 @@ class TestModelsAzureOpenAI(unittest.TestCase):
         """Test that model configuration is loaded from fixture metadata"""
         with patch.dict(os.environ, {"AZURE_AI_API_KEY": "sk-test-key"}):
             # Load model metadata from fixture
+            from pathlib import Path
             from aider.models import MODEL_SETTINGS
-            register_models("tests/fixtures/aider_model_metadata.json")
+            
+            fixture_path = Path(__file__).parent.parent / "fixtures/aider_model_metadata.json"
+            register_models(fixture_path)
             
             # Model name matches entry in aider_model_metadata.json
             model = Model("azure_ai/deepseek-r1")
