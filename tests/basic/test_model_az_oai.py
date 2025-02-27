@@ -13,7 +13,7 @@ from aider.models import (
 )
 
 
-class TestModels(unittest.TestCase):
+class TestModelsAzureOpenAI(unittest.TestCase):
     def setUp(self):
         """Reset MODEL_SETTINGS before each test"""
         from aider.models import MODEL_SETTINGS
