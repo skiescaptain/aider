@@ -1,0 +1,20 @@
+{
+  "azure_ai/deepseek-r1": {
+    "max_tokens": 8192,
+    "max_input_tokens": 64000,
+    "max_output_tokens": 8192,
+    "input_cost_per_token": 0.0,
+    "input_cost_per_token_cache_hit": 0.0,
+    "cache_read_input_token_cost": 0.00,
+    "cache_creation_input_token_cost": 0.0,
+    "output_cost_per_token": 0.0,
+    "mode": "chat",
+    "supports_assistant_prefill": true,
+    "supports_prompt_caching": true,
+    "litellm_provider": "azure_ai",
+    "extra_params": {
+      "api_base": "https://aigc0685508828.services.ai.azure.com/models",
+      "api_version": "2024-05-01-preview"
+    }
+  }
+}
