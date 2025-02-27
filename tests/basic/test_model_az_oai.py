@@ -55,7 +55,7 @@ class TestModelsAzureOpenAI(unittest.TestCase):
             from pathlib import Path
             from aider.models import MODEL_SETTINGS
             
-            fixture_path = Path(__file__).parent.parent / "fixtures/aider_model_metadata.yaml"
+            fixture_path = Path(__file__).parent.parent / "fixtures/aider_model_metadata.json"
             register_litellm_models([fixture_path])
             
             # Model name matches entry in aider_model_metadata.json
