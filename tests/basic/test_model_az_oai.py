@@ -48,6 +48,23 @@ class TestModelsAzureOpenAI(unittest.TestCase):
         result: tuple[Any, ModelResponse] = model.send_completion(messages, None, False)
         print(result[1].choices[0].message.content)
 
+    def test_fixture_configures_model(self):
+        """Test that model configuration is loaded from fixture metadata"""
+        with patch.dict(os.environ, {"AZURE_AI_API_KEY": "sk-test-key"}):
+            # Model name matches entry in aider_model_metadata.json
+            model = Model("azure_ai/deepseek-r1")
+            
+            # Verify settings from fixture are applied
+            self.assertEqual(model.edit_format, "diff")
+            self.assertTrue(model.use_repo_map)
+            self.assertTrue(model.examples_as_sys_msg)
+            self.assertFalse(model.use_temperature)
+            self.assertEqual(model.remove_reasoning, "think")
+            
+            # Verify extra_params from fixture are set
+            self.assertEqual(model.extra_params["api_base"], "https://aigc0685508828.services.ai.azure.com/models")
+            self.assertEqual(model.extra_params["api_version"], "2024-05-01-preview")
+
 
 if __name__ == "__main__":
     unittest.main()
