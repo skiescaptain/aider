@@ -240,7 +240,7 @@ class Model(ModelSettings):
         self.extra_model_settings = next(
             (ms for ms in MODEL_SETTINGS if ms.name == "aider/extra_params"), None
         )
-
+        self.extra_params = {}
         self.info = self.get_model_info(model)
 
         # Are all needed keys/params available?
@@ -293,7 +293,7 @@ class Model(ModelSettings):
         # If no exact match, try generic settings
         if not exact_match:
             self.apply_generic_model_settings(model)
-
+        self.extra_params.update(self.info.get("extra_params", {}))
         # Apply override settings last if they exist
         if self.extra_model_settings and self.extra_model_settings.extra_params:
             # Initialize extra_params if it doesn't exist
